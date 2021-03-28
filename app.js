@@ -15,7 +15,7 @@ let db;
 
 
 app.use(cors());
-//encode data while insert
+//encode data while insert  
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
 
@@ -57,7 +57,7 @@ app.get('/restaurant/:id',(req,res) => {
  });
 
 
- //get restaurant/city
+ 
  app.get('/rest',(req,res) => {
      var condition={}; 
 
@@ -119,6 +119,28 @@ app.get('/restaurant/:id',(req,res) => {
         res.send(result);  
     })
     });
+
+
+    //place order
+     app.post('/placeorder',(req,res) => {
+      db.collection('orders').insert(req.body,(err,result) =>{
+        if (err) console.log(err);
+        res.status(200).send('Data Added');  
+    })
+});
+
+
+//get all bookings
+app.get('/orders',(req,res) => {
+    db.collection('orders').find().toArray((err,result) =>{
+        if (err) console.log(err);
+        res.status(200).send(result);  
+    })
+});
+
+
+
+
  
 
   MongoClient.connect(mongourl,(err,connection) => {
